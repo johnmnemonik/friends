@@ -1,0 +1,63 @@
+Semyon Fedin fsemyonhr@gmail.com
+
+Антон, еще раз добрый день!
+Высылаю Тест: 
+
+Составить структуру для Postgres где будут друзья, 
+запросы в друзья с возможностью принять/отклонить.
+(запросы в друзья с возможностью принять/отклонить, это решаеться на уровне предстовлений или ответа
+пользователя методами javascript/ajax/websocket)
+
+
+CREATE TABLE friend (
+    id serial PRIMARY KEY,
+    name character varying(255) NOT NULL
+);
+
+
+CREATE TABLE friend_friend (
+    id serial PRIMARY KEY,
+    from_id integer REFERENCES friend,
+    to_id integer REFERENCES friend
+);
+
+
+INSERT INTO friend (name, id) 
+VALUES
+	('вася', 1),
+	('петя', 2),
+	('андрей', 3),
+	('олег', 4),
+	('антон', 5),
+	('миша', 6),
+	('паша', 7),
+	('рома', 8),
+	('михаил', 9),
+	('вова', 10),
+	('виталик', 11);
+
+
+INSERT INTO friend_friend (from_id, to_id) 
+VALUES 
+	(2, 1),(3, 1),(1, 1),
+	(1, 5),(1, 1),(2, 1),
+	(3, 2),(4, 1),(5, 1);
+
+
+Составить запрос на выборку всех друзей у друзей.
+
+SELECT name FROM friend WHERE id=1;
+SELECT * FROM friend as fr INNER JOIN friend_friend as mfr ON (fr.id=mfr.to_id) WHERE mfr.from_id=1;
+
+Составить индексы для частого использования этого запроса.
+Все формируется на чистом SQL.
+
+
+CREATE INDEX ON friend(name);
+CREATE INDEX ON friend_friend(to_id);
+CREATE INDEX ON friend_friend(from_id);
+ANALYZE friend;
+
+Реализовать это на Django с просмотром связей в админке.
+
+
