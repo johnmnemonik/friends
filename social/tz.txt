@@ -49,6 +49,8 @@ VALUES
 SELECT name FROM friend WHERE id=1;
 SELECT * FROM friend as fr INNER JOIN friend_friend as mfr ON (fr.id=mfr.to_id) WHERE mfr.from_id=1;
 
+SELECT count(*) FROM friend as fr INNER JOIN friend_friend as mfr ON (fr.id=mfr.to_id) WHERE mfr.from_id=1;
+
 Составить индексы для частого использования этого запроса.
 Все формируется на чистом SQL.
 
